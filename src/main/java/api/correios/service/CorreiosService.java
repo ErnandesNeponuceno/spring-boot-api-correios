@@ -23,13 +23,17 @@ public class CorreiosService {
     private LocalDateTime expiracaoToken;
 
     public String rastrearObjeto(String codigoRastreio) {
+
+if (codigoRastreio == null || codigoRastreio.isBlank()) {
+    throw new IllegalArgumentException("Código de rastreio não pode ser vazio");
+}
         String tokenValido = obterTokenValido();
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + tokenValido);
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
 
-        HttpEntity<String> entity = new HttpEntity<>("entity", headers);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
 
         String url = config.getUrl() + "/srorastro/v1/objetos/" + codigoRastreio + "?resultado=U";
 
