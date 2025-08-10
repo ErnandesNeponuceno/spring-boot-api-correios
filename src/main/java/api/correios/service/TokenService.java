@@ -5,19 +5,15 @@ import api.correios.dto.TokenResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.client.*;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class TokenService {
+
     private final CorreiosConfigProperties config;
     private final RestTemplate restTemplate = new RestTemplate();
-
 
     public TokenResponseDTO solicitarNovoToken() {
         String auth = Base64.getEncoder().encodeToString(
@@ -52,7 +48,7 @@ public class TokenService {
             } else if (e.getStatusCode() == HttpStatus.PRECONDITION_FAILED) {
                 throw new RuntimeException("Token 'bearer' não foi enviado na requisição (412)", e);
             } else {
-                throw new RuntimeException("Erro ao solicitar token dos Correios", e);
+                throw new RuntimeException("Erro do cliente ao solicitar token: " + e.getStatusCode(), e);
             }
         }
     }

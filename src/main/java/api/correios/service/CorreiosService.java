@@ -24,9 +24,10 @@ public class CorreiosService {
 
     public String rastrearObjeto(String codigoRastreio) {
 
-if (codigoRastreio == null || codigoRastreio.isBlank()) {
-    throw new IllegalArgumentException("Código de rastreio não pode ser vazio");
-}
+        if (codigoRastreio == null || codigoRastreio.isBlank()) {
+            throw new IllegalArgumentException("Código de rastreio não pode ser vazio");
+        }
+
         String tokenValido = obterTokenValido();
 
         HttpHeaders headers = new HttpHeaders();
